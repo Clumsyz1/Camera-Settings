@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Photography Light Master | Clumsyz System v3.1</title>
+    <title>Photography Light Master | Clumsyz System v3.2</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Sarabun:wght@400;600;700&display=swap"
@@ -26,7 +26,7 @@
         <h1 class="text-3xl font-[800] text-slate-900 mb-2 italic">
           Exposure Calculator Pro
           <span class="text-indigo-600 text-sm font-black not-italic ml-2"
-            >v3.1</span
+            >v3.2</span
           >
         </h1>
         <p class="text-slate-500 font-medium">
@@ -53,11 +53,11 @@
             <div>
               <label
                 class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1"
-                >F-Stop (N)</label
+                >F-Stop (T)</label
               >
               <input
                 type="number"
-                id="inputN"
+                id="inputT"
                 placeholder="เช่น 2.8, 4, 5.6"
                 step="0.1"
                 oninput="calculateAll()"
@@ -68,11 +68,11 @@
             <div>
               <label
                 class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1"
-                >Shutter Speed (T) วินาที</label
+                >Shutter Speed (N) วินาที</label
               >
               <input
                 type="text"
-                id="inputT"
+                id="inputN"
                 placeholder="เช่น 1/50, 1/100"
                 oninput="calculateAll()"
                 class="w-full bg-white border border-slate-200 rounded-2xl px-5 py-4 text-lg font-bold outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all"
@@ -184,14 +184,15 @@
             class="mt-8 pt-6 border-t border-white/5 opacity-30 text-[9px] font-mono leading-relaxed"
           >
             <p>// Time Complexity: O(1) Data Retrieval</p>
-            <p>// Source: DSLR Incident Light Table rev 1.1</p>
+            <p>// Formula Refactored: T = F-Stop, N = Shutter Speed</p>
+            <p>// $EV = \log_2(T^2 / N)$</p>
           </div>
         </div>
       </div>
     </div>
 
     <script>
-      // Data Dictionary: เก็บข้อมูลสภาพแสงตามระดับ EV (O(1) Dictionary Lookup)
+      // Data Dictionary: เก็บข้อมูลสภาพแสง
       const sceneDictionary = {
         0: { en: "Very dim artificial light", th: "แสงประดิษฐ์ที่สลัวมาก" },
         1: { en: "Bright, full moon", th: "แสงจันทร์เต็มดวง" },
@@ -243,6 +244,7 @@
         17: { en: "Rare in nature", th: "สว่างจ้ามาก (พบได้ยากในธรรมชาติ)" },
       };
 
+      // Helper function (DRY Principle)
       function parseFraction(str) {
         if (!str) return NaN;
         if (str.includes("/")) {
@@ -254,10 +256,13 @@
         return parseFloat(str);
       }
 
+      // Core Business Logic
       function calculateAll() {
-        const N = parseFloat(document.getElementById("inputN").value);
-        const T = parseFraction(document.getElementById("inputT").value);
-        const S = parseFloat(document.getElementById("inputS").value);
+        // [Refactored Variable Mapping]
+        // สลับการรับค่าให้ตรงกับตัวแปรใหม่ที่คุณต๋องกำหนด
+        const T = parseFloat(document.getElementById("inputT").value); // T = F-Stop
+        const N = parseFraction(document.getElementById("inputN").value); // N = Shutter Speed
+        const S = parseFloat(document.getElementById("inputS").value); // S = ISO
 
         const outEV = document.getElementById("outEV");
         const outLux = document.getElementById("outLux");
@@ -265,8 +270,8 @@
         const outSceneEN = document.getElementById("outSceneEN");
         const container = document.getElementById("outSceneContainer");
 
-        // 1. Validation
-        if (isNaN(N) || isNaN(T) || isNaN(S) || N <= 0 || T <= 0) {
+        // 1. Validation (ป้องกัน Error หากกรอกข้อมูลไม่ครบ)
+        if (isNaN(T) || isNaN(N) || isNaN(S) || T <= 0 || N <= 0) {
           outEV.innerText = "--";
           outLux.innerText = "--";
           outSceneTH.innerText = "รอรับข้อมูล...";
@@ -275,13 +280,16 @@
           return;
         }
 
-        // 2. Normalization & Lux Calculation (K=320 for Incident)
-        const exactNSquared = Math.pow(
+        // 2. Normalization & Lux Calculation
+        // แก้ไขสมการให้ใช้ตัวแปร T (F-Stop) และ N (Shutter Speed)
+        const exactTSquared = Math.pow(
           2,
-          Math.round(Math.log2(Math.pow(N, 2))),
+          Math.round(Math.log2(Math.pow(T, 2))),
         );
-        const K = 320;
-        const lux = (exactNSquared * K) / (S * T);
+        const K = 320; // Calibration Constant (Incident Light)
+
+        // สูตร: Lux = (T^2 * K) / (S * N)
+        const lux = (exactTSquared * K) / (S * N);
         outLux.innerText = Math.round(lux).toLocaleString();
 
         // 3. EV Calculation
@@ -289,10 +297,8 @@
         const roundedEV = Math.round(ev);
         outEV.innerText = roundedEV;
 
-        // 4. Scene Context Mapping (Dictionary Lookup)
+        // 4. Scene Context Mapping (O(1) Access)
         container.classList.remove("opacity-50");
-
-        // หาข้อมูลสภาพแสงจาก Data Dictionary
         if (sceneDictionary[roundedEV]) {
           outSceneTH.innerText = sceneDictionary[roundedEV].th;
           outSceneEN.innerText = sceneDictionary[roundedEV].en;
