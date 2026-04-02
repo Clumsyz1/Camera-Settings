@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Photography Light Master | Clumsyz System v3.2</title>
+    <title>Photography Light Master | Clumsyz System v6.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Sarabun:wght@400;600;700&display=swap"
@@ -14,23 +14,25 @@
         font-family: "Plus Jakarta Sans", "Sarabun", sans-serif;
       }
       .glass-panel {
-        background: rgba(255, 255, 255, 0.85);
+        background: rgba(255, 255, 255, 0.9);
         backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.4);
       }
     </style>
   </head>
   <body class="bg-slate-50 min-h-screen py-12 px-4">
-    <div class="max-w-4xl mx-auto">
+    <div class="max-w-5xl mx-auto">
       <div class="mb-12 text-center">
         <h1 class="text-3xl font-[800] text-slate-900 mb-2 italic">
           Exposure Calculator Pro
           <span class="text-indigo-600 text-sm font-black not-italic ml-2"
-            >v3.2</span
+            >v6.0</span
           >
         </h1>
-        <p class="text-slate-500 font-medium">
-          คำนวณค่าแสง (EV), ความสว่าง (Lux) และจำลองสภาพแสงจริง
+        <p
+          class="text-slate-500 font-medium italic underline decoration-indigo-200 uppercase tracking-tighter"
+        >
+          ISO Optimizer Mode
         </p>
       </div>
 
@@ -40,12 +42,12 @@
         >
           <div class="flex items-center gap-3 mb-8">
             <div
-              class="w-8 h-8 bg-slate-900 rounded-lg flex items-center justify-center text-white font-bold text-xs uppercase tracking-tighter"
+              class="w-8 h-8 bg-slate-900 rounded-lg flex items-center justify-center text-white font-bold text-xs"
             >
-              In
+              IN
             </div>
             <h2 class="text-xl font-extrabold text-slate-800 tracking-tight">
-              1. ข้อมูลที่ต้องให้ผู้ใช้กรอก
+              1. ข้อมูลสภาพแสงและการตั้งค่า
             </h2>
           </div>
 
@@ -53,56 +55,50 @@
             <div>
               <label
                 class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1"
-                >F-Stop (T)</label
-              >
-              <input
-                type="number"
-                id="inputT"
-                placeholder="เช่น 2.8, 4, 5.6"
-                step="0.1"
-                oninput="calculateAll()"
-                class="w-full bg-white border border-slate-200 rounded-2xl px-5 py-4 text-lg font-bold outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all"
-              />
-            </div>
-
-            <div>
-              <label
-                class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1"
-                >Shutter Speed (N) วินาที</label
-              >
-              <input
-                type="text"
-                id="inputN"
-                placeholder="เช่น 1/50, 1/100"
-                oninput="calculateAll()"
-                class="w-full bg-white border border-slate-200 rounded-2xl px-5 py-4 text-lg font-bold outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all"
-              />
-            </div>
-
-            <div>
-              <label
-                class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1"
-                >ISO (S)</label
+                >สภาพแสงแวดล้อม (Lighting Scene)</label
               >
               <select
-                id="inputS"
+                id="selectScene"
                 onchange="calculateAll()"
-                class="w-full bg-white border border-slate-200 rounded-2xl px-5 py-4 text-lg font-bold outline-none appearance-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all cursor-pointer"
-              >
-                <option value="100">100</option>
-                <option value="200">200</option>
-                <option value="400">400</option>
-                <option value="800">800</option>
-                <option value="1600">1600</option>
-                <option value="3200">3200</option>
-                <option value="6400">6400</option>
-              </select>
+                class="w-full bg-white border border-slate-200 rounded-2xl px-5 py-4 text-sm font-bold outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all cursor-pointer"
+              ></select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label
+                  class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1"
+                  >F-Stop (T)</label
+                >
+                <input
+                  type="number"
+                  id="inputT"
+                  value="2.8"
+                  step="0.1"
+                  oninput="calculateAll()"
+                  class="w-full bg-white border border-slate-200 rounded-2xl px-5 py-4 text-lg font-bold outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all"
+                />
+              </div>
+
+              <div>
+                <label
+                  class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1"
+                  >Speed Shutter (N)</label
+                >
+                <input
+                  type="text"
+                  id="inputN"
+                  value="1/50"
+                  oninput="calculateAll()"
+                  class="w-full bg-white border border-slate-200 rounded-2xl px-5 py-4 text-lg font-bold outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all"
+                />
+              </div>
             </div>
           </div>
         </div>
 
         <div
-          class="bg-slate-900 rounded-[2.5rem] p-8 shadow-2xl text-white relative overflow-hidden flex flex-col"
+          class="bg-slate-900 rounded-[2.5rem] p-10 shadow-2xl text-white relative overflow-hidden flex flex-col justify-between"
         >
           <div
             class="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full -mr-16 -mt-16 blur-3xl"
@@ -115,201 +111,150 @@
               OUT
             </div>
             <h2 class="text-xl font-extrabold tracking-tight">
-              2. ผลลัพธ์ที่ได้
+              2. ค่า ISO ที่แนะนำ
             </h2>
           </div>
 
-          <div class="space-y-10 relative z-10 flex-grow">
-            <div>
+          <div class="grid grid-cols-1 gap-12 relative z-10">
+            <div class="border-l-4 border-indigo-500 pl-6">
               <p
                 class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2"
               >
-                ค่า Exposure Value (EV)
+                ค่าความไวแสงที่ควรใช้ (ISO)
               </p>
               <div class="flex items-baseline gap-2">
                 <span
-                  id="outEV"
-                  class="text-7xl font-black text-indigo-400 tracking-tighter transition-all duration-300"
+                  id="outISO"
+                  class="text-7xl font-black text-white tracking-tighter"
                   >--</span
-                >
-                <span
-                  class="text-slate-500 font-bold uppercase text-xs tracking-[0.2em]"
-                  >EV</span
                 >
               </div>
             </div>
 
-            <div>
-              <p
-                class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2"
-              >
-                ความสว่างของสภาพแวดล้อม (Lux)
-              </p>
-              <div class="flex items-baseline gap-2">
-                <span
-                  id="outLux"
-                  class="text-4xl font-bold text-white tracking-tighter transition-all duration-300"
-                  >--</span
-                >
-                <span class="text-slate-400 font-medium">Lux</span>
-              </div>
-            </div>
-
-            <div
-              class="bg-white/5 border border-white/10 rounded-2xl p-5 backdrop-blur-sm mt-4"
-            >
-              <p
-                class="text-[10px] font-black text-indigo-300 uppercase tracking-widest mb-3"
-              >
-                📸 ตัวอย่างสภาพแสง (Lighting Example)
-              </p>
-              <div
-                id="outSceneContainer"
-                class="opacity-50 transition-opacity duration-500"
-              >
+            <div class="grid grid-cols-2 gap-4">
+              <div>
                 <p
-                  id="outSceneTH"
-                  class="text-lg font-bold text-white mb-1 leading-snug"
+                  class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1"
                 >
-                  รอรับข้อมูล...
+                  Exposure Value
                 </p>
-                <p id="outSceneEN" class="text-xs text-slate-400 italic">
-                  Please enter camera settings
+                <div class="flex items-baseline gap-1">
+                  <span id="outEV" class="text-3xl font-bold text-indigo-400"
+                    >--</span
+                  >
+                  <span class="text-[10px] font-bold text-slate-500">EV</span>
+                </div>
+              </div>
+
+              <div>
+                <p
+                  class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1"
+                >
+                  ความสว่างของแสง (LUX)
                 </p>
+                <div class="flex items-baseline gap-1">
+                  <span id="outLux" class="text-3xl font-bold text-white"
+                    >--</span
+                  >
+                  <span class="text-[10px] font-bold text-slate-500">Lux</span>
+                </div>
               </div>
             </div>
           </div>
 
           <div
-            class="mt-8 pt-6 border-t border-white/5 opacity-30 text-[9px] font-mono leading-relaxed"
+            class="mt-10 pt-6 border-t border-white/5 opacity-30 text-[9px] font-mono leading-relaxed"
           >
-            <p>// Time Complexity: O(1) Data Retrieval</p>
-            <p>// Formula Refactored: T = F-Stop, N = Shutter Speed</p>
-            <p>// $EV = \log_2(T^2 / N)$</p>
+            <br />
           </div>
         </div>
       </div>
     </div>
 
     <script>
-      // Data Dictionary: เก็บข้อมูลสภาพแสง
+      // Data Dictionary: เก็บข้อมูลสภาพแสง (คลีนชื่อ EV ออกแล้ว)
       const sceneDictionary = {
-        0: { en: "Very dim artificial light", th: "แสงประดิษฐ์ที่สลัวมาก" },
+        0: { en: "Very dim artificial light", th: "แสงสลัวมาก" },
         1: { en: "Bright, full moon", th: "แสงจันทร์เต็มดวง" },
-        2: {
-          en: "Distant artificial light",
-          th: "แสงไฟระยะไกล / แสงไฟตามถนนไกลๆ",
-        },
-        3: {
-          en: "Romantic candlelight; firelight",
-          th: "แสงเทียนโรแมนติก / แสงจากกองไฟ",
-        },
+        2: { en: "Distant artificial light", th: "แสงไฟระยะไกล" },
+        3: { en: "Romantic candlelight; firelight", th: "แสงเทียน / แสงกองไฟ" },
         4: { en: "Street lamps, motorway lighting", th: "ไฟถนน / ไฟทางด่วน" },
-        5: {
-          en: "15w low-energy bulbs at 1m",
-          th: "หลอดประหยัดไฟ 15W ที่ระยะ 1 เมตร",
-        },
-        6: {
-          en: "Well lit home interior",
-          th: "แสงสว่างภายในบ้าน / ออฟฟิศทั่วไป",
-        },
-        7: { en: "Outdoor Amusement park", th: "สวนสนุกกลางแจ้ง (ตอนกลางคืน)" },
-        8: { en: "Store window display", th: "ตู้โชว์สินค้าร้านค้าสว่างๆ" },
+        5: { en: "15w low-energy bulbs at 1m", th: "หลอดไฟ 15W ระยะ 1ม." },
+        6: { en: "Well lit home interior", th: "ในบ้าน / ออฟฟิศสว่าง" },
+        7: { en: "Outdoor Amusement park", th: "สวนสนุกกลางแจ้งตอนคืน" },
+        8: { en: "Store window display", th: "ตู้โชว์สินค้าหน้าร้าน" },
         9: { en: "Neon signage", th: "ป้ายไฟนีออน" },
         10: {
           en: "Just after sunset, clear evening",
-          th: "ช่วงพลบค่ำ ฟ้าโปร่ง (หลังพระอาทิตย์ตก)",
+          th: "หลังพระอาทิตย์ตก (Twilight)",
         },
         11: { en: "Bright sunset", th: "แสงพระอาทิตย์ตก" },
-        12: {
-          en: "Overcast or open shade on bright day or sunset",
-          th: "เมฆครึ้ม หรือร่มเงาในวันแดดจ้า",
-        },
-        13: {
-          en: "Bright cloudy; shadowless",
-          th: "เมฆขาวสว่าง / แสงนุ่มไม่มีเงา",
-        },
+        12: { en: "Overcast or open shade", th: "เมฆครึ้ม / ร่มเงาวันแดดจ้า" },
+        13: { en: "Bright cloudy; shadowless", th: "เมฆขาวสว่าง ไม่มีเงา" },
         14: {
           en: "Slightly overcast, soft shadows",
-          th: "มีเมฆบังเล็กน้อย / เงานุ่มนวล",
+          th: "มีเมฆบังเล็กน้อย เงานุ่ม",
         },
-        15: {
-          en: "Bright sunlight, hard shadows",
-          th: "แสงแดดจ้า / เงาแข็งชัดเจน",
-        },
-        16: {
-          en: "Sunlit snow, hard shadows",
-          th: "หิมะหรือทรายสะท้อนแสงแดด / เงาแข็ง",
-        },
-        17: { en: "Rare in nature", th: "สว่างจ้ามาก (พบได้ยากในธรรมชาติ)" },
+        15: { en: "Bright sunlight, hard shadows", th: "แสงแดดจ้า เงาแข็ง" },
+        16: { en: "Sunlit snow, hard shadows", th: "หิมะหรือทรายสะท้อนแดด" },
+        17: { en: "Rare in nature", th: "สว่างจ้าเป็นพิเศษ" },
       };
 
-      // Helper function (DRY Principle)
+      // Build Dropdown
+      const select = document.getElementById("selectScene");
+      Object.keys(sceneDictionary).forEach((ev) => {
+        const option = document.createElement("option");
+        option.value = ev;
+        option.text = `${sceneDictionary[ev].th} (${sceneDictionary[ev].en})`;
+        select.appendChild(option);
+      });
+
       function parseFraction(str) {
         if (!str) return NaN;
         if (str.includes("/")) {
           const parts = str.split("/");
-          if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
-            return parseFloat(parts[0]) / parseFloat(parts[1]);
-          }
+          return parseFloat(parts[0]) / parseFloat(parts[1]);
         }
         return parseFloat(str);
       }
 
-      // Core Business Logic
       function calculateAll() {
-        // [Refactored Variable Mapping]
-        // สลับการรับค่าให้ตรงกับตัวแปรใหม่ที่คุณต๋องกำหนด
-        const T = parseFloat(document.getElementById("inputT").value); // T = F-Stop
-        const N = parseFraction(document.getElementById("inputN").value); // N = Shutter Speed
-        const S = parseFloat(document.getElementById("inputS").value); // S = ISO
+        const EV = parseFloat(select.value);
+        const T = parseFloat(document.getElementById("inputT").value); // F-Stop
+        const N = parseFraction(document.getElementById("inputN").value); // Shutter Speed
 
+        const outISO = document.getElementById("outISO");
         const outEV = document.getElementById("outEV");
         const outLux = document.getElementById("outLux");
-        const outSceneTH = document.getElementById("outSceneTH");
-        const outSceneEN = document.getElementById("outSceneEN");
-        const container = document.getElementById("outSceneContainer");
 
-        // 1. Validation (ป้องกัน Error หากกรอกข้อมูลไม่ครบ)
-        if (isNaN(T) || isNaN(N) || isNaN(S) || T <= 0 || N <= 0) {
-          outEV.innerText = "--";
-          outLux.innerText = "--";
-          outSceneTH.innerText = "รอรับข้อมูล...";
-          outSceneEN.innerText = "Please enter camera settings";
-          container.classList.add("opacity-50");
-          return;
-        }
+        if (isNaN(EV) || isNaN(T) || isNaN(N) || T <= 0 || N <= 0) return;
 
-        // 2. Normalization & Lux Calculation
-        // แก้ไขสมการให้ใช้ตัวแปร T (F-Stop) และ N (Shutter Speed)
+        // 1. Calculate Lux from EV
+        const L = 2.5 * Math.pow(2, EV);
+        outLux.innerText = Math.round(L).toLocaleString();
+
+        // 2. Display EV
+        outEV.innerText = EV;
+
+        /** 3. Calculate ISO (S)
+         * จากสูตร Lux = (T^2 * K) / (S * N)
+         * ย้ายข้างหา S: S = (T^2 * K) / (L * N)
+         * K = 320 (Incident Light Constant)
+         */
+        const K = 320;
+        // ใช้ค่า T^2 แบบ Exact (Power of 2) เพื่อความแม่นยำตามตาราง
         const exactTSquared = Math.pow(
           2,
           Math.round(Math.log2(Math.pow(T, 2))),
         );
-        const K = 320; // Calibration Constant (Incident Light)
+        const ISO = (exactTSquared * K) / (L * N);
 
-        // สูตร: Lux = (T^2 * K) / (S * N)
-        const lux = (exactTSquared * K) / (S * N);
-        outLux.innerText = Math.round(lux).toLocaleString();
-
-        // 3. EV Calculation
-        const ev = Math.log2(lux / 2.5);
-        const roundedEV = Math.round(ev);
-        outEV.innerText = roundedEV;
-
-        // 4. Scene Context Mapping (O(1) Access)
-        container.classList.remove("opacity-50");
-        if (sceneDictionary[roundedEV]) {
-          outSceneTH.innerText = sceneDictionary[roundedEV].th;
-          outSceneEN.innerText = sceneDictionary[roundedEV].en;
-        } else if (roundedEV < 0) {
-          outSceneTH.innerText = "มืดสนิท / ต้องการ Long Exposure";
-          outSceneEN.innerText = "Extremely Dark";
-        } else {
-          outSceneTH.innerText = "สว่างจนเกินขีดจำกัดตาราง (Overexposed)";
-          outSceneEN.innerText = "Beyond standard table";
-        }
+        // แสดงผล ISO (ปัดเศษให้สวยงาม)
+        outISO.innerText = Math.round(ISO).toLocaleString();
       }
+
+      // Initialize
+      calculateAll();
     </script>
   </body>
 </html>
